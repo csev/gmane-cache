@@ -7,10 +7,23 @@ hosted on gmane.org primarily to off-load their site when
 some other process (i.e. 10,000 students doing their homework)
 is going to pound the heck out of a particular mailing list.
 
-In aprticular, the idea is to host this and then use something
-like CloudFlare to further edge-cache the content so those 
-around the world see super fast response time and the load
-on the caching server is reduced as well.
+You can play with an implementation of this at URLs like
+
+http://gmane.dr-chuck.net/gmane.comp.cms.sakai.devel/12/13
+
+Where 12 and 13 are a range of message numbers.  This caches the 
+gmane content in a MySQL database on my 1and1 ISP and then the URLs 
+are further cached using my CloudFlare account.  You can compare 
+this to looking at the original from gmane at:
+
+http://download.gmane.org/gmane.comp.cms.sakai.devel/12/13
+
+My cached copy scales very nicely and is much quicker once the
+messages have been retrieved once from gmane to my 1and1 database.
+
+For fun, take a look at the developers console on my cached copy - 
+I have a little  response header in there to show what is happening 
+behind the scenes.
 
 Configuration
 -------------
@@ -30,6 +43,5 @@ the database tabel and various settings:
     // Only add these at the end and keep the same order unless
     // you completely empty out the messages table.
     $ALLOWED = array(
-    'gmane.comp.cms.sakai.devel'
+        'gmane.comp.cms.sakai.devel'
     );
-
