@@ -13,10 +13,7 @@ require_once "tsugi_util.php";
 
 $deflate = function_exists('gzdeflate') && function_exists('gzinflate');
 
-// header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-// header("Cache-Control: post-check=0, pre-check=0", false);
-// header("Pragma: no-cache");
-
+header("Cache-Control: max-age=604800, public");
 
 $local_path = route_get_local_path(__DIR__);
 $pos = strpos($local_path,'?');
@@ -29,17 +26,22 @@ if ( $pos > 0 ) {
 }
 $pieces = explode('/',$local_path);
 
-if ( count($pieces) != 3 ) {
-    die("Expecting URL of form /gmane.comp.cms.sakai.devel/12/13");
+$n = count($pieces);
+if ( $n < 3 ) {
+    echo("Expecting URL of form ../gmane.comp.cms.sakai.devel/12/13\n");
+    var_dump($pieces);
+    die("");
 }
 
-$list_id = array_search($pieces[0],$ALLOWED);
+$first = $n - 3;
+
+$list_id = array_search($pieces[$first],$ALLOWED);
 if ( $list_id === false ) {
-    die("Mailing list ".htmlentities($pieces[0])." not found.");
+    die("Mailing list ".htmlentities($pieces[$first])." not found.");
 }
 
-$start = 0+$pieces[1];
-$end = 0+$pieces[2];
+$start = 0+$pieces[$first+1];
+$end = 0+$pieces[$first+2];
 
 if ( $start < 1 || $end < 1 ) {
     die("Message numbers must be numeric and > 0");

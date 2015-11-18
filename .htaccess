@@ -2,4 +2,13 @@
 Options +FollowSymLinks
 RewriteEngine On
 # Redirect requests to index.php
+RewriteBase /
 RewriteRule .* index.php
+
+Header set Access-Control-Allow-Origin "*"
+
+# http://www.askapache.com/htaccess/speed-up-sites-with-htaccess-caching.html
+# Make the material static for a week
+Header set Cache-Control "max-age=604800, public"
+
+
