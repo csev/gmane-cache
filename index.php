@@ -11,6 +11,8 @@ require_once "config.php";
 require_once "pdo.php";
 require_once "tsugi_util.php";
 
+$deflate = function_exists('gzdeflate') && function_exists('gzinflate');
+
 // header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 // header("Cache-Control: post-check=0, pre-check=0", false);
 // header("Pragma: no-cache");
@@ -82,6 +84,11 @@ while ( $message < $end ) {
             continue;
         }
 
+        // Inflate if necessary
+        if ( $deflate ) {
+            $row['message'] = gzinflate($row['message']);
+        }
+
         $debug[] = "$message from cache diff=$datediff";
         $output .= $row['message'] . "\n";
         $message ++;
@@ -104,6 +111,12 @@ while ( $message < $end ) {
         $debug[] = "$message truncated to ".$CFG->maxtext;
     }
 
+    // Inflate if necessary
+    $insert_text = $text;
+    if ( $deflate ) {
+        $insert_text = gzdeflate($text);
+    }
+
     $stmt = $pdo->prepare('INSERT INTO messages
         (message_id, status, message, list_id, created_at, updated_at) VALUES
         (:mid, :stat, :mess, :lid, NOW(), NOW())
@@ -111,7 +124,7 @@ while ( $message < $end ) {
         message = :mess, status = :stat');
     $stmt->execute( array( 
         ':mid' => $message, 
-        ':mess' => $text, 
+        ':mess' => $insert_text, 
         ':stat' => $last_http_response,  
         ':lid' => $list_id) 
     );
