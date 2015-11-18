@@ -71,6 +71,7 @@ while ( $message < $end ) {
         $updated_at = $row['updated_at'];
         $updated_time = strtotime($updated_at);
         $datediff = $now - $updated_time;
+	$expire = $CFG->expire - rand(0,$CFG->expire/10);
         if ( $datediff >= $CFG->expire ) {
             $debug[] = "$message expired diff=$datediff updated_at=$updated_at";
             $row = false;
