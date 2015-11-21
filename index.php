@@ -28,9 +28,19 @@ $pieces = explode('/',$local_path);
 
 $n = count($pieces);
 if ( $n < 3 ) {
-    echo("Expecting URL of form ../gmane.comp.cms.sakai.devel/12/13\n");
-    var_dump($pieces);
-    die("");
+?>
+This is a caching server in order to allow the retreival of
+messages from a gmane.org archive without overwhelming the
+actual gmane server.
+
+This server expects a URL of the form:
+
+<?= isset($_SERVER['SCRIPT_URI']) ? $_SERVER['SCRIPT_URI'] : '..' ?>/<?= $ALLOWED[0] ?>/4/5
+
+And returns mmessages in an mbox format.   No more than 10 
+messages can be requested at one time.
+<?php
+    exit();
 }
 
 $first = $n - 3;
