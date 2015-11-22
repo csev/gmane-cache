@@ -37,7 +37,7 @@ This server expects a URL of the form:
 
 <?= isset($_SERVER['SCRIPT_URI']) ? $_SERVER['SCRIPT_URI'] : '..' ?>/<?= $ALLOWED[0] ?>/4/5
 
-And returns mmessages in an mbox format.   No more than 10 
+And returns messages in an mbox format.   No more than 10 
 messages can be requested at one time.
 <?php
     exit();
