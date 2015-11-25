@@ -39,6 +39,13 @@ This server expects a URL of the form:
 
 And returns messages in an mbox format.   No more than 10 
 messages can be requested at one time.
+
+There is a copy of this hosted at:
+
+http://gmane.dr-chuck.net/
+
+That is served through CloudFlare and so it should provide
+fast access anywhere in the world.
 <?php
     exit();
 }
