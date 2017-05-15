@@ -2,7 +2,7 @@
 Options +FollowSymLinks
 RewriteEngine On
 # Redirect requests to index.php
-RewriteBase /
+RewriteBase /gmane-cache
 RewriteRule .* index.php
 
 Header set Access-Control-Allow-Origin "*"

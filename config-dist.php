@@ -12,6 +12,10 @@ $CFG->maxtext = 200000;
 // Only add these at the end and keep the same order unless
 // you completely empty out the messages table.
 $ALLOWED = array(
-'gmane.comp.cms.sakai.devel'
+'sakai.devel',                  // For dr-chuck.net
+'gmane.comp.cms.sakai.devel'    // for gmane.org
 );
+
+$baseurl = "http://download.gmane.org/gmane.comp.cms.sakai.devel/";
+$baseurl = "http://mbox.dr-chuck.net/sakai.devel/";
 

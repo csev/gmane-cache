@@ -68,8 +68,6 @@ if ( $start < 1 || $end < 1 ) {
     die("No more than 10 messages can be requested at the same time");
 }
 
-$baseurl = "http://download.gmane.org/gmane.comp.cms.sakai.devel/";
-
 $message = $start;
 $debug = array();
 $output = "";
@@ -125,7 +123,7 @@ while ( $message < $end ) {
     $text = getCurl($url, $header=false);
 
     // TODO: What about attachments...
-    $debug[] = "$message retrieved status=$last_http_response, length=".strlen($text);
+    $debug[] = "$message retrieved url=$url status=$last_http_response, length=".strlen($text);
     if ( strlen($text) > $CFG->maxtext ) {
         $text = substr($text,0,$CFG->maxtext)."\n";  // Sanity
         $debug[] = "$message truncated to ".$CFG->maxtext;
@@ -150,7 +148,7 @@ while ( $message < $end ) {
     );
 
     if ( $last_http_response != 200 || strlen($text) < 1 ) {
-        error_log("status=$last_http_response length=".strlen($text)." ".$url);
+        error_log("stored status=$last_http_response length=".strlen($text)." ".$url);
         $message++;
         continue;
     }
