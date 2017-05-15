@@ -13,7 +13,15 @@ require_once "tsugi_util.php";
 
 $deflate = function_exists('gzdeflate') && function_exists('gzinflate');
 
-header("Cache-Control: max-age=604800, public");
+// Make material static for a week
+$seconds_to_cache = 604800;
+$ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . " GMT";
+header("Expires: $ts");
+header("Pragma: cache");
+header("Cache-Control: max-age=$seconds_to_cache, public");
+
+# Header set Access-Control-Allow-Origin "*"
+header("Access-Control-Allow-Origin: *");
 
 $local_path = route_get_local_path(__DIR__);
 $pos = strpos($local_path,'?');

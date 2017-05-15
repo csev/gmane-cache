@@ -45,3 +45,16 @@ the database tabel and various settings:
     $ALLOWED = array(
         'gmane.comp.cms.sakai.devel'
     );
+
+Pre-Filling Your Database
+-------------------------
+
+You can run the PY4E crawler and point it at yourself by changing the base url.
+
+	python3 gmane.py
+
+This is a restartable crawler as it storest its current state in sqlite - pitch 
+the in-progress database when you are done or want to restart the crawl.
+
+	rm content.sqlite
+

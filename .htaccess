@@ -1,14 +1,26 @@
 # Turn rewriting on
 Options +FollowSymLinks
-RewriteEngine On
-# Redirect requests to index.php
-RewriteBase /gmane-cache
-RewriteRule .* index.php
+# Header set Access-Control-Allow-Origin "*"
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteRule ^ - [E=protossl]
+    RewriteCond %{HTTPS} on
+    RewriteRule ^ - [E=protossl:s]
 
-Header set Access-Control-Allow-Origin "*"
+    # Root folder all alone
+    RewriteRule "^/$" index.php [L]
+    # Root folder with GET parameters
+    RewriteRule "^/?.*$" index.php [L]
 
-# http://www.askapache.com/htaccess/speed-up-sites-with-htaccess-caching.html
-# Make the material static for a week
-Header set Cache-Control "max-age=604800, public"
+    RewriteRule "(^|/)\." - [F]
+    RewriteCond %{REQUEST_FILENAME} !-f
 
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    RewriteCond %{REQUEST_URI} !=/favicon.ico
+    RewriteRule ^ index.php [L]
+</IfModule>
+<IfModule !mod_rewrite.c>
+    FallbackResource index.php
+</IfModule>
 
